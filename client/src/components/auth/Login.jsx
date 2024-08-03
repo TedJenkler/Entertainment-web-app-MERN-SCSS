@@ -1,10 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import icon from '../../assets/images/Movie.png';
 import { Link } from 'react-router-dom';
+import { login } from '../../features/users/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [formError, setFormError] = useState({ email: "", password: "" });
+
+  const navigate = useNavigate();
+  const error = useSelector((state) => state.auth.error);
+  console.log(error);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token !== null && token !== '') {
+      navigate("/home")
+    }
+  }, [dispatch]);
 
   const validateField = (name, value) => {
     switch (name) {
@@ -53,7 +68,8 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form data is valid:", formData);
+      const { email, password } = formData;
+      dispatch(login({ email, password }))
     }
   };
 

@@ -39,14 +39,8 @@ exports.register = async (req, res, next) => {
 
         res.status(201).json({ message: 'User created successfully', user: savedUser });
     } catch (error) {
-        logger.error('Could not register user', { error });
-        if (error.name === 'ValidationError') {
-            res.status(400).json({ message: 'Validation error', details: error.errors });
-        } else if (error.name === 'MongoError' && error.code === 11000) {
-            res.status(400).json({ message: 'Duplicate key error', details: error.keyValue });
-        } else {
-            res.status(500).json({ message: 'Internal Server Error', error: error.message });
-        }
+        logger.error('Could not register', { error });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
