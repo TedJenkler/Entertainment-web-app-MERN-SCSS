@@ -7,39 +7,57 @@
     color: white;
     padding: 1.5rem 1.5rem 2rem 1.5rem;
     transition: all 0.3s ease-in-out;
-    
+
     h1 {
         margin: 0;
         margin-bottom: 2.5rem;
     }
-    
-    input {
-        width: 100%;
-        height: 2.3125rem;
-        border: none;
-        border-bottom: 0.0625rem solid $greyblue;
-        background-color: $semidarkblue;
-        color: white;
-        outline: none;
-        padding: 0 1rem 1.125rem 1rem;
-        margin-bottom: 1.5rem;
+
+    label {
+        position: relative;
+
+        input {
+            width: 100%;
+            height: 2.3125rem;
+            border: none;
+            border-bottom: 0.0625rem solid $greyblue;
+            background-color: $semidarkblue;
+            color: white;
+            outline: none;
+            padding: 0 1rem 1.125rem 1rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+
+            &:focus {
+                border-bottom: 0.0625rem solid white;
+            }
+        }
+
+        span {
+            position: absolute;
+            @include body-style(s);
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: $red;
+        }
     }
-    
+
     button {
         margin-bottom: 1.5rem;
         @include button();
     }
-    
+
     div {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5625rem;
-        
+
         p {
             margin: 0;
         }
-        
+
         a {
             color: $red;
             text-decoration: none;
@@ -53,7 +71,7 @@
         min-height: 23.3125rem;
         border-radius: 1.25rem;
         padding: 2rem;
-        
+
         .lastinput {
             margin-bottom: 2.5rem;
         }
