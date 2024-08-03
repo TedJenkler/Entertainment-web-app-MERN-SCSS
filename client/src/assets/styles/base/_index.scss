@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+.bgauth {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: $darkblue;
+    padding: 3rem 1.5rem 10.625rem 1.5rem;
+    
+    img {
+        height: 1.6rem;
+        width: 2rem;
+        margin-bottom: 3.65rem;
+    }
+}

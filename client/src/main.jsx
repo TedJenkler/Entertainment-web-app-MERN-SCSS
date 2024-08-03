@@ -9,6 +9,7 @@ import Login from './components/auth/Login.jsx';
 import Register from './components/auth/Register.jsx';
 import { store } from './app/store'
 import { Provider } from 'react-redux'
+import './assets/styles/main.scss';
 
 const router = createBrowserRouter([
   {

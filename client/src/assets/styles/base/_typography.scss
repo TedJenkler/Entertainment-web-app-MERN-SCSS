@@ -1,0 +1,31 @@
+h1 {
+    @include heading-style(l);
+  }
+  
+  h2 {
+    @include heading-style(m);
+  }
+  
+  h3 {
+    @include heading-style(s);
+  }
+  
+  h4 {
+    @include heading-style(xs);
+  }
+
+  p {
+    @include body-style(m);
+  }
+
+  a {
+    @include body-style(m);
+  }
+
+  input {
+    @include body-style(m);
+  }
+  
+  small {
+    @include body-style(s);
+  }
