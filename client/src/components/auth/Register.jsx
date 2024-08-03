@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import icon from '../../assets/images/Movie.png';
 import { Link } from 'react-router-dom';
+import { register } from '../../features/users/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Register() {
   const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
   const [formError, setFormError] = useState({ email: "", password: "", confirmPassword: "" });
+
+  const error = useSelector((state) => state.auth.error)
+
+  console.log(error);
+
+  const dispatch = useDispatch();
 
   const validateField = (name, value) => {
     switch (name) {
@@ -63,7 +71,8 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form data is valid:", formData);
+      const { email, password } = formData;
+      dispatch(register({ email, password }));
     }
   };
 

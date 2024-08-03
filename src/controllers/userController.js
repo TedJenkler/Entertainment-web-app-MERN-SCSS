@@ -21,11 +21,14 @@ exports.getAll = async (req, res, next) => {
 exports.register = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required' });
+        }
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: 'Email already in use' });
-        };
+        }
 
         const newUser = new User({
             email,
@@ -35,9 +38,15 @@ exports.register = async (req, res, next) => {
         const savedUser = await newUser.save();
 
         res.status(201).json({ message: 'User created successfully', user: savedUser });
-    }catch (error) {
+    } catch (error) {
         logger.error('Could not register user', { error });
-        res.status(500).json({ message: 'Internal Server Error' });
+        if (error.name === 'ValidationError') {
+            res.status(400).json({ message: 'Validation error', details: error.errors });
+        } else if (error.name === 'MongoError' && error.code === 11000) {
+            res.status(400).json({ message: 'Duplicate key error', details: error.keyValue });
+        } else {
+            res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        }
     }
 };
 

@@ -38,6 +38,7 @@ Users should be able to:
 - [Redux Toolkit](https://redux-toolkit.js.org/) - The official, opinionated, batteries-included toolset for efficient Redux development
 - [React Router DOM](https://reactrouter.com/web/guides/quick-start) - Declarative routing for React.js
 - [Sass](https://sass-lang.com/) - CSS preprocessor for more manageable and maintainable stylesheets
+- [Axios](https://axios-http.com/) - Promise-based HTTP client for the browser and Node.js
 
 ## Backend
 
@@ -55,6 +56,7 @@ Users should be able to:
 - [helmet](https://helmetjs.github.io/) - Security middleware for HTTP headers
 - [cors](https://www.npmjs.com/package/cors) - Middleware to enable CORS
 - [nodemon](https://www.npmjs.com/package/nodemon) - Utility to automatically restart the server
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - Library for creating and verifying JSON Web Tokens (JWTs)
 
 ## My Process
 
@@ -68,6 +70,7 @@ Users should be able to:
 - [Redux Toolkit Documentation](https://redux-toolkit.js.org/) - Official documentation for Redux Toolkit, including best practices and usage examples.
 - [React Router Documentation](https://reactrouter.com/docs/en/v6) - Guide for using React Router for declarative routing in React applications.
 - [Sass Documentation](https://sass-lang.com/documentation) - Official guide for using Sass, including variables, mixins, and nesting.
+- [Axios Documentation](https://axios-http.com/docs/intro) - Documentation for Axios, including how to perform HTTP requests and handle responses.
 
 ### Backend
 
@@ -78,7 +81,7 @@ Users should be able to:
 - [CORS Documentation](https://www.npmjs.com/package/cors) - Middleware for handling Cross-Origin Resource Sharing (CORS) in Express applications.
 - [bcrypt Documentation](https://www.npmjs.com/package/bcrypt) - Guide for hashing passwords with bcrypt, including API usage and examples.
 - [dotenv Documentation](https://www.npmjs.com/package/dotenv) - Documentation for managing environment variables with dotenv.
-
+- [jsonwebtoken Documentation](https://www.npmjs.com/package/jsonwebtoken) - Guide for creating and verifying JWTs for secure authentication.
 
 ## Author
 

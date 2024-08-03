@@ -3,7 +3,8 @@ const logger = require('./src/utils/logger');
 const userRoutes = require('./src/routes/userRoutes');
 const connectDB = require('./src/config/db');
 const errorHandler = require('./src/middlewere/errorHandler');
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const cors = require('cors');
 
 const app = express();
 dotenv.config();
@@ -11,6 +12,12 @@ dotenv.config();
 const startServer = async () => {
     try {
         await connectDB();
+
+        app.use(cors({
+            origin: 'http://localhost:5173',
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            allowedHeaders: ['Content-Type', 'Authorization'],
+        }));
 
         app.use(express.json());
         app.use('/api/users', userRoutes);
