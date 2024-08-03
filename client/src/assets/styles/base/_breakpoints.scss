@@ -1,0 +1,9 @@
+@mixin breakpoint($size) {
+    @if $size == md {
+        @media (min-width: $breakpoint-md) {
+            @content;
+        }
+    } @else {
+        @warn "Unknown breakpoint: #{$size}";
+    }
+}

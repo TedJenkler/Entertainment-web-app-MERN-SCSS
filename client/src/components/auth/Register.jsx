@@ -1,5 +1,6 @@
 import React from 'react'
 import icon from '../../assets/images/Movie.png';
+import { Link } from 'react-router-dom';
 
 function Register() {
   return (
@@ -9,11 +10,11 @@ function Register() {
         <h1>Sign Up</h1>
         <input placeholder='Email address'></input>
         <input placeholder='Password'></input>
-        <input placeholder='Repeat Password'></input>
+        <input className='lastinput' placeholder='Repeat Password'></input>
         <button>Create an account</button>
         <div>
           <p>Alread have an account?</p>
-          <a>Login</a>
+          <Link to="/">Login</Link>
         </div>
       </div>
     </div>

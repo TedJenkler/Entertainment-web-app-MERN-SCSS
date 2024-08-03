@@ -1,11 +1,12 @@
 .register {
-    width: 87.2%;
-    height: 26.25rem;
+    max-width: 20.4375rem;
+    min-height: 26.25rem;
     background-color: $semidarkblue;
     border-radius: 0.625rem;
     border: none;
     color: white;
     padding: 1.5rem 1.5rem 2rem 1.5rem;
+    transition: all 0.3s ease-in-out;
     
     h1 {
         margin: 0;
@@ -42,6 +43,19 @@
         a {
             color: $red;
             text-decoration: none;
+        }
+    }
+}
+
+@include breakpoint(md) {
+    .register {
+        max-width: 25rem;
+        min-height: 26.125rem;
+        border-radius: 1.25rem;
+        padding: 2rem;
+        
+        .lastinput {
+            margin-bottom: 2.5rem;
         }
     }
 }

@@ -9,7 +9,7 @@ function Login() {
         <div className='login'>
             <h1>Login</h1>
             <input placeholder='Email address'></input>
-            <input placeholder='Password'></input>
+            <input className='lastinput' placeholder='Password'></input>
             <button>Login to your account</button>
             <div>
                 <p>Don’t have an account?</p>
