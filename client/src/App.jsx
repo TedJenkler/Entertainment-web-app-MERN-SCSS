@@ -1,17 +1,7 @@
-import NowPlaying from "./components/NowPlaying"
-import Popular from "./components/Popular"
-import TopRated from "./components/TopRated"
-import Upcoming from "./components/Upcoming"
-
 function App() {
 
   return (
-    <main>
-    <TopRated />
-    <NowPlaying />
-    <Popular />
-    <Upcoming />
-    </main>
+    <></>
   )
 }
 

@@ -9,6 +9,11 @@
             @content;
         }
     }
+    @else if $size == xl {
+        @media (min-width: $breakpoint-xl) {
+            @content;
+        }
+    }
     @else {
         @warn "Unknown breakpoint: #{$size}";
     }

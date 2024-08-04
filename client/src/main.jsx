@@ -11,6 +11,9 @@ import { store } from './app/store'
 import { Provider } from 'react-redux'
 import './assets/styles/main.scss';
 import Nav from './components/Nav.jsx';
+import Movies from './components/Movies.jsx';
+import Series from './components/Series.jsx';
+import Bookmarks from './components/Bookmarks.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,6 +27,18 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element:<><Nav /><App /></>
+  },
+  {
+    path: "/movies",
+    element:<><Nav /><Movies /></>
+  },
+  {
+    path: "/series",
+    element:<><Nav /><Series /></>
+  },
+  {
+    path: "/bookmarks",
+    element:<><Nav /><Bookmarks /></>
   }
 ]);
 

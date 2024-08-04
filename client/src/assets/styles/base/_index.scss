@@ -7,6 +7,8 @@ html, body {
     width: 100vw;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+    background-color: $darkblue;
 }
 
 #root {
@@ -22,7 +24,7 @@ html, body {
     height: 100vh;
     background-color: $darkblue;
     padding: 3rem 1.5rem 10.625rem 1.5rem;
-    
+
     img {
         height: 1.6rem;
         width: 2rem;
@@ -37,8 +39,18 @@ main {
     background-color: $darkblue;
     min-height: 100%;
     width: 100vw;
-    padding: 0 20px 3.813rem 20px;
+    padding: 0 1.25rem 3.813rem 1.25rem;
     @include breakpoint(lg) {
         padding: 0;
+    }
+}
+
+@include breakpoint(xl) {
+    #root {
+        display: flex;
+    }
+
+    main {
+        margin-left: 164px;
     }
 }
