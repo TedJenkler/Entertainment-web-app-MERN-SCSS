@@ -14,6 +14,16 @@
             @content;
         }
     }
+    @else if $size == xxl {
+        @media (min-width: $breakpoint-xxl) {
+            @content;
+        }
+    }
+    @else if $size == xxxl {
+        @media (min-width: $breakpoint-xxxl) {
+            @content;
+        }
+    }
     @else {
         @warn "Unknown breakpoint: #{$size}";
     }

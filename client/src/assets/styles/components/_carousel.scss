@@ -118,12 +118,24 @@
     }
 }
 
-/* @include breakpoint(xl) {
+@include breakpoint(xxl) {
     .carousel-section {
+
         width: 1340px;
     }
 
     .carousel {
         width: 1340px;
     }
-} */
+}
+
+@include breakpoint(xxxl) {
+    .carousel-section {
+        
+        width: 1675px;
+    }
+
+    .carousel {
+        width: 1675px;
+    }
+}
