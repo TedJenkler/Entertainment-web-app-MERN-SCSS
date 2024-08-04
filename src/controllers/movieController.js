@@ -1,6 +1,5 @@
 const logger = require('../utils/logger');
 const Movie = require('../models/movieModel');
-const { default: axios } = require('axios');
 
 exports.toprated = async (req, res, next) => {
   try {

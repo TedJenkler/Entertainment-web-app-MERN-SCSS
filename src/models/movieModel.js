@@ -5,12 +5,12 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true
+    unique: true,
   },
-  poster_path: {
+  posterPath: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   topRated: {
     type: Boolean,
@@ -27,20 +27,9 @@ const movieSchema = new mongoose.Schema({
   upcoming: {
     type: Boolean,
     default: false
-  },
-  dateCreated: {
-    type: Date,
-    default: Date.now
-  },
-  dateUpdated: {
-    type: Date,
-    default: Date.now
   }
-});
-
-movieSchema.pre('save', function(next) {
-  this.dateUpdated = Date.now();
-  next();
+}, {
+  timestamps: true
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
