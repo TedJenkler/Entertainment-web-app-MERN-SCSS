@@ -10,6 +10,7 @@ import Register from './components/auth/Register.jsx';
 import { store } from './app/store'
 import { Provider } from 'react-redux'
 import './assets/styles/main.scss';
+import Nav from './components/Nav.jsx';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/home",
-    element: <App />
+    element:<><Nav /><App /></>
   }
 ]);
 
