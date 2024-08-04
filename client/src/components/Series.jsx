@@ -1,10 +1,11 @@
 import React from 'react'
+import AiringToday from './AiringToday'
 
 function Series() {
   return (
-    <div>
-      
-    </div>
+    <main>
+      <AiringToday />
+    </main>
   )
 }
 

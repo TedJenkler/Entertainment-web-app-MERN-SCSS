@@ -1,6 +1,5 @@
 const Serie = require('../models/serieModel');
 const logger = require('../utils/logger');
-const Serie = require('../models/serieModel');
 
 exports.addMany = async (req, res, next) => {
     try {
@@ -34,4 +33,22 @@ exports.addMany = async (req, res, next) => {
 
         res.status(500).json({ message: 'Internal Server Error' });
     }
+};
+
+exports.airingtoday = async (req, res, next) => {
+  try {
+    const series = await Serie.find({ airingToday: true }).limit(10);
+    if (series.length === 0) {
+      logger.error('Could not find any series airing today in the database');
+      return res.status(404).json({ message: 'No series airing today found' });
+    }
+
+    res.status(200).json({
+      message: 'Successfully fetched series airing today from the database',
+      series: series
+    });
+  } catch (error) {
+    logger.error('Could not fetch series airing today from the database', { error: error.message, stack: error.stack });
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 };
