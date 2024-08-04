@@ -1,8 +1,8 @@
 .carousel-section {
-    padding: 1.25rem;
     color: #fff;
     text-align: center;
-    width: 375px;
+    width: 21rem;
+    margin: auto;
 }
 
 .carousel-header {
@@ -14,12 +14,13 @@
 
 .carousel {
     position: relative;
-    width: 375px;
+    width: 21rem;
     height: 37.5rem;
     overflow: hidden;
     box-sizing: border-box;
     display: flex;
     align-items: center;
+    margin: 0 auto;
 }
 
 .carousel-container {
@@ -30,11 +31,12 @@
     scroll-behavior: smooth;
     align-items: center;
     height: 100%;
+    width: 100%;
 }
 
 .card {
     flex: 0 0 auto;
-    width: 375px;
+    width: 21rem;
     scroll-snap-align: start;
     box-sizing: border-box;
     background-color: $semidarkblue;
@@ -49,7 +51,7 @@
 }
 
 .card img {
-    width: 375px;
+    width: 21rem;
     height: 100%;
     object-fit: cover;
 }
@@ -92,5 +94,26 @@
 
     &.next {
         right: 0.625rem;
+    }
+}
+
+@include breakpoint(md) {
+    .carousel-section {
+        width: 41.875rem;
+    }
+
+    .carousel {
+        width: 41.875rem;
+    }
+}
+
+@include breakpoint(lg) {
+    .carousel-section {
+        width: 1005px;
+        margin: 0;
+    }
+
+    .carousel {
+        width: 1005px;
     }
 }

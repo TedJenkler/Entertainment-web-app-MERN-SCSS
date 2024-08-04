@@ -3,9 +3,9 @@
 @import './utils/variables';
 @import './utils/mixins';
 
+@import './base/breakpoints';
 @import './base/index';
 @import './base/typography';
-@import './base/breakpoints';
 
 @import './components/login';
 @import './components//register';

@@ -3,7 +3,13 @@
         @media (min-width: $breakpoint-md) {
             @content;
         }
-    } @else {
+    }
+    @else if $size == lg {
+        @media (min-width: $breakpoint-lg) {
+            @content;
+        }
+    }
+    @else {
         @warn "Unknown breakpoint: #{$size}";
     }
 }

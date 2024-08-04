@@ -37,5 +37,8 @@ main {
     background-color: $darkblue;
     min-height: 100%;
     width: 100vw;
-    padding-bottom: 3.813rem;
+    padding: 0 20px 3.813rem 20px;
+    @include breakpoint(lg) {
+        padding: 0;
+    }
 }
