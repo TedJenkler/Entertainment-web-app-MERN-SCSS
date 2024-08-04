@@ -28,8 +28,8 @@ function NowPlaying() {
     if (!data || data.length === 0) return <div>Loading...</div>;
 
     return (
-        <section className="now-playing-section">
-            <h1 className="now-playing-header">Now Playing Movies</h1>
+        <section className="carousel-section">
+            <h1 className="carousel-header">Now Playing Movies</h1>
             <div className="carousel">
                 <button className="carousel-button prev" onClick={scrollLeft}>
                     ‹

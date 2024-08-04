@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPopular } from '../features/movies/movieSlice';
+import { getUpcoming } from '../features/movies/movieSlice';
 
-function Popular() {
-    const data = useSelector((state) => state.movies.popular);
+function Upcoming() {
+    const data = useSelector((state) => state.movies.upcoming);
     const dispatch = useDispatch();
     const carouselRef = useRef(null);
 
@@ -22,14 +22,14 @@ function Popular() {
     };
 
     useEffect(() => {
-        dispatch(getPopular())
+        dispatch(getUpcoming())
     }, [])
 
     if (!data || data.length === 0) return <div>Loading...</div>;
 
     return (
         <section className="carousel-section">
-            <h1 className="carousel-header">Popular Movies</h1>
+            <h1 className="carousel-header">Top Rated Movies</h1>
             <div className="carousel">
                 <button className="carousel-button prev" onClick={scrollLeft}>
                     ‹
@@ -53,4 +53,4 @@ function Popular() {
     );
 }
 
-export default Popular;
+export default Upcoming;

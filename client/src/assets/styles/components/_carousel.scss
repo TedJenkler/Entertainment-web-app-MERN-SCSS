@@ -1,10 +1,11 @@
-.top-rated-section {
+.carousel-section {
     padding: 1.25rem;
     color: #fff;
     text-align: center;
+    width: 375px;
 }
 
-.top-rated-header {
+.carousel-header {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 1.25rem;
@@ -13,7 +14,7 @@
 
 .carousel {
     position: relative;
-    width: 100%;
+    width: 375px;
     height: 37.5rem;
     overflow: hidden;
     box-sizing: border-box;
@@ -33,7 +34,7 @@
 
 .card {
     flex: 0 0 auto;
-    width: 100%;
+    width: 375px;
     scroll-snap-align: start;
     box-sizing: border-box;
     background-color: $semidarkblue;
@@ -48,7 +49,7 @@
 }
 
 .card img {
-    width: 100%;
+    width: 375px;
     height: 100%;
     object-fit: cover;
 }

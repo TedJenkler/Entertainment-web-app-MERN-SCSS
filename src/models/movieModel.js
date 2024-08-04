@@ -24,6 +24,10 @@ const movieSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  upcoming: {
+    type: Boolean,
+    default: false
+  },
   dateCreated: {
     type: Date,
     default: Date.now

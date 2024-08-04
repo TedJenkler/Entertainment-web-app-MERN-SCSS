@@ -51,7 +51,8 @@ exports.addMany = async (req, res) => {
       poster_path: movie.poster_path,
       topRated: movie.topRated || false,
       nowPlaying: movie.nowPlaying || false,
-      popular: movie.popular || false
+      popular: movie.popular || false,
+      upcoming: movie.upcoming || false
     }));
 
     const result = await Movie.insertMany(movies);
@@ -80,6 +81,24 @@ exports.popular = async (req, res, next) => {
     });
   } catch (error) {
     logger.error('Error fetching popular movies: ', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.upcoming = async (req, res, next) => {
+  try {
+    const dbMovies = await Movie.find({ upcoming: true }).limit(10);
+    if (dbMovies.length === 0) {
+      logger.info('No upcoming movies found in the database');
+      return res.status(404).json({ message: 'No upcoming movies found' });
+    }
+
+    res.status(200).json({
+      message: 'Successfully fetched upcoming movies from the database',
+      movies: dbMovies
+    });
+  } catch (error) {
+    logger.error('Error fetching upcoming movies: ', error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

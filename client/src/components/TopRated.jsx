@@ -28,8 +28,8 @@ function TopRated() {
     if (!data || data.length === 0) return <div>Loading...</div>;
 
     return (
-        <section className="top-rated-section">
-            <h1 className="top-rated-header">Top Rated Movies</h1>
+        <section className="carousel-section">
+            <h1 className="carousel-header">Top Rated Movies</h1>
             <div className="carousel">
                 <button className="carousel-button prev" onClick={scrollLeft}>
                     ‹
