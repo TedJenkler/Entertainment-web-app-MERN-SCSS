@@ -25,9 +25,22 @@ export const getNowPlaying = createAsyncThunk(
     }
 );
 
+export const getPopular = createAsyncThunk(
+  'movies/popular',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get('http://localhost:2000/api/movies/popular');
+      return response.data;
+    }catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
 const initialState = {
   topRated: [],
   nowPlaying: [],
+  popular: [],
   status: 'idle',
   error: null
 };
@@ -45,7 +58,7 @@ const movieSlice = createSlice({
       .addCase(getTopRated.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.topRated = action.payload.movies;
-    })
+      })
       .addCase(getTopRated.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
@@ -57,8 +70,20 @@ const movieSlice = createSlice({
       .addCase(getNowPlaying.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.nowPlaying = action.payload.movies;
-    })
+      })
       .addCase(getNowPlaying.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(getPopular.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(getPopular.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.popular = action.payload.movies;
+      })
+      .addCase(getPopular.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       });

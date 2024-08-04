@@ -20,6 +20,10 @@ const movieSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  popular: {
+    type: Boolean,
+    default: false
+  },
   dateCreated: {
     type: Date,
     default: Date.now

@@ -1,5 +1,6 @@
 const logger = require('../utils/logger');
 const Movie = require('../models/movieModel');
+const { default: axios } = require('axios');
 
 exports.toprated = async (req, res, next) => {
   try {
@@ -49,7 +50,8 @@ exports.addMany = async (req, res) => {
       title: movie.title,
       poster_path: movie.poster_path,
       topRated: movie.topRated || false,
-      nowPlaying: movie.nowPlaying || false
+      nowPlaying: movie.nowPlaying || false,
+      popular: movie.popular || false
     }));
 
     const result = await Movie.insertMany(movies);
@@ -60,6 +62,24 @@ exports.addMany = async (req, res) => {
     });
   } catch (error) {
     logger.error('Could not add movies to database', { error });
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.popular = async (req, res, next) => {
+  try {
+    const dbMovies = await Movie.find({ popular: true }).limit(10);
+    if (dbMovies.length === 0) {
+      logger.info('No popular movies found in the database');
+      return res.status(404).json({ message: 'No popular movies found' });
+    }
+
+    res.status(200).json({
+      message: 'Successfully fetched popular movies from the database',
+      movies: dbMovies
+    });
+  } catch (error) {
+    logger.error('Error fetching popular movies: ', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
