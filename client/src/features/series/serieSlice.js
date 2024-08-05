@@ -13,8 +13,21 @@ export const getAiringToday = createAsyncThunk(
     }
 );
 
+export const getOnAir = createAsyncThunk(
+    'series/onair',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get('http://localhost:2000/api/series/onair');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 const initialState = {
     airingToday: [],
+    onAir: [],
     status: 'idle',
     error: null
 };
@@ -34,6 +47,18 @@ const serieSlice = createSlice({
                 state.airingToday = action.payload.series;
             })
             .addCase(getAiringToday.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(getOnAir.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(getOnAir.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.onAir = action.payload.series;
+            })
+            .addCase(getOnAir.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

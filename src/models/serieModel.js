@@ -15,6 +15,10 @@ const seriesSchema = new mongoose.Schema({
     airingToday: {
         type: Boolean,
         default: false
+    },
+    onAir: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true

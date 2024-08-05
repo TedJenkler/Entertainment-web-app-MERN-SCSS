@@ -15,7 +15,8 @@ exports.addMany = async (req, res, next) => {
         const series = data.map(serie => ({
             title: serie.title,
             poster_path: serie.poster_path,
-            airingToday: serie.airingToday || false
+            airingToday: serie.airingToday || false,
+            onAir: serie.onAir || false
         }));
 
         logger.info('Transformed series data', { series });
@@ -48,6 +49,24 @@ exports.airingtoday = async (req, res, next) => {
       series: series
     });
   } catch (error) {
+    logger.error('Could not fetch series airing today from the database', { error: error.message, stack: error.stack });
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.onair = async (req, res, next) => {
+  try {
+    const series = await Serie.find({ onAir: true });
+    if(series.length === 0) {
+      logger.error('Could not find any series onair in the database');
+      return res.status(404).json({ message: 'No series onair found' });
+    }
+
+    res.status(200).json({
+      message: 'Successfully fetched series airing today from the database',
+      series: series
+    });
+  }catch (error) {
     logger.error('Could not fetch series airing today from the database', { error: error.message, stack: error.stack });
     res.status(500).json({ message: 'Internal Server Error' });
   }
