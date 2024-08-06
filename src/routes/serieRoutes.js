@@ -5,6 +5,8 @@ const serieController = require('../controllers/serieController');
 router.post('/addMany', serieController.addMany);
 router.get('/airingtoday', serieController.airingtoday);
 router.get('/onair', serieController.onair);
+router.get('/popular', serieController.popular);
+router.get('/toprated', serieController.toprated);
 
 module.exports = router;
 

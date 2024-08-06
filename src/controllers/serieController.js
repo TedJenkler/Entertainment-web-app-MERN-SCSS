@@ -16,7 +16,9 @@ exports.addMany = async (req, res, next) => {
             title: serie.title,
             poster_path: serie.poster_path,
             airingToday: serie.airingToday || false,
-            onAir: serie.onAir || false
+            onAir: serie.onAir || false,
+            popular: serie.popular || false,
+            topRated: serie.topRated || false
         }));
 
         logger.info('Transformed series data', { series });
@@ -68,6 +70,42 @@ exports.onair = async (req, res, next) => {
     });
   }catch (error) {
     logger.error('Could not fetch series airing today from the database', { error: error.message, stack: error.stack });
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.popular = async (req, res, next) => {
+  try {
+    const series = await Serie.find({ popular: true }).limit(10);
+    if (series.length === 0) {
+      logger.error('Cannot find popular TV shows');
+      return res.status(404).json({ message: 'Cannot find popular TV shows' });
+    }
+
+    res.status(200).json({
+      message: 'Successfully found popular TV shows',
+      series: series
+    });
+  } catch (error) {
+    logger.error('Error fetching popular TV shows', { error: error.message, stack: error.stack });
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.toprated = async (req, res, next) => {
+  try {
+    const series = await Serie.find({ topRated: true }).limit(10);
+    if (series.length === 0) {
+      logger.error('Cannot find top-rated TV shows');
+      return res.status(404).json({ message: 'Cannot find top-rated TV shows' });
+    }
+
+    res.status(200).json({
+      message: 'Successfully found top-rated TV shows',
+      series: series
+    });
+  } catch (error) {
+    logger.error('Error fetching top-rated TV shows', { error: error.message, stack: error.stack });
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

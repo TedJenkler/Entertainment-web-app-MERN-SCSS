@@ -25,9 +25,35 @@ export const getOnAir = createAsyncThunk(
     }
 );
 
+export const getPopular = createAsyncThunk(
+    'series/popular',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get('http://localhost:2000/api/series/popular');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const getTopRated = createAsyncThunk(
+    'series/toprated',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get('http://localhost:2000/api/series/toprated');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 const initialState = {
     airingToday: [],
     onAir: [],
+    popular: [],
+    topRated: [],
     status: 'idle',
     error: null
 };
@@ -59,6 +85,30 @@ const serieSlice = createSlice({
                 state.onAir = action.payload.series;
             })
             .addCase(getOnAir.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(getPopular.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(getPopular.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.popular = action.payload.series;
+            })
+            .addCase(getPopular.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(getTopRated.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(getTopRated.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.topRated = action.payload.series;
+            })
+            .addCase(getTopRated.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

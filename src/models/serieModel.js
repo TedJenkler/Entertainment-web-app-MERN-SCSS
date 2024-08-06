@@ -19,6 +19,14 @@ const seriesSchema = new mongoose.Schema({
     onAir: {
         type: Boolean,
         default: false
+    },
+    popular: {
+        type: Boolean,
+        default: false
+    },
+    topRated: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true
