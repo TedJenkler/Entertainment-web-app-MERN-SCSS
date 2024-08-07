@@ -49,11 +49,24 @@ export const getTopRated = createAsyncThunk(
     }
 );
 
+export const getTrending = createAsyncThunk(
+    'series/trending',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get('http://localhost:2000/api/series/trending');
+            return response.data;
+        }catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 const initialState = {
     airingToday: [],
     onAir: [],
     popular: [],
     topRated: [],
+    trending: [],
     status: 'idle',
     error: null
 };
@@ -109,6 +122,18 @@ const serieSlice = createSlice({
                 state.topRated = action.payload.series;
             })
             .addCase(getTopRated.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(getTrending.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(getTrending.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.trending = action.payload.series;
+            })
+            .addCase(getTrending.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });
