@@ -7,7 +7,8 @@ const url = {
   toprated: 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1',
   nowplaying: 'https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1',
   popular: 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1',
-  upcoming: 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1'
+  upcoming: 'https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1',
+  trending: 'https://api.themoviedb.org/3/trending/movie/day?language=en-US'
 };
 
 const options = {
@@ -138,6 +139,32 @@ exports.upcoming = async (req, res, next) => {
     });
   } catch (error) {
     logger.error('Error fetching upcoming movies', { error });
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.trending = async (req, res, next) => {
+  try {
+    const apiMovies = await fetchMovies(url.trending);
+    if (apiMovies && apiMovies.results && apiMovies.results.length > 0) {
+      return res.status(200).json({
+        message: 'Successfully fetched trending movies from the API',
+        movies: apiMovies.results
+      });
+    }
+
+    const dbMovies = await Movie.find().limit(10);
+    if (dbMovies.length === 0) {
+      logger.info('No trending movies found in the database');
+      return res.status(404).json({ message: 'No trending movies found' });
+    }
+
+    res.status(200).json({
+      message: 'Successfully fetched trending movies from the database',
+      movies: dbMovies
+    });
+  } catch (error) {
+    logger.error('Error fetching trending movies', { error });
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };

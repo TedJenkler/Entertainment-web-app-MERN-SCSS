@@ -49,11 +49,24 @@ export const getUpcoming = createAsyncThunk(
   }
 );
 
+export const getTrending = createAsyncThunk(
+  'movies/trending',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get('http://localhost:2000/api/movies/trending');
+      return response.data
+    }catch (error) {
+      return rejectWithValue(error.message)
+    }
+  }
+);
+
 const initialState = {
   topRated: [],
   nowPlaying: [],
   popular: [],
   upcoming: [],
+  trending: [],
   status: 'idle',
   error: null
 };
@@ -111,7 +124,19 @@ const movieSlice = createSlice({
       .addCase(getUpcoming.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
-      });
+      })
+      .addCase(getTrending.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(getTrending.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.trending = action.payload.movies;
+      })
+      .addCase(getTrending.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
   }
 });
 

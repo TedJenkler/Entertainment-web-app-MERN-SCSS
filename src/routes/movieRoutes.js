@@ -6,6 +6,7 @@ router.get('/toprated', movieController.toprated);
 router.get('/nowplaying', movieController.nowplaying);
 router.get('/popular', movieController.popular);
 router.get('/upcoming', movieController.upcoming);
+router.get('/trending', movieController.trending);
 router.post('/addMany', movieController.addMany);
 
 module.exports = router

@@ -5,6 +5,7 @@ import series from "../assets/images/series.png"
 import bookmark from "../assets/images/Bookmark.png"
 import movie from "../assets/images/movie.png"
 import oval from "../assets/images/Oval.png"
+import selectedhome  from "../assets/images/selectedhome.png"
 import selectedMovie from "../assets/images/selectedmovie.png"
 import selectedseries from "../assets/images/selectedseries.png"
 import selectedbookmark from "../assets/images/selectedbookmark.png"
@@ -17,7 +18,7 @@ function Nav() {
         <div>
           <img className='logo' src={logo} alt='logo' />
           <div>
-            { /* <img src={home} alt='home' /> */}
+            <Link to="/"><img src={params.pathname === "/home" ? selectedhome : home} alt='home' /></Link>
             <Link to="/movies"><img src={params.pathname === "/movies" ? selectedMovie : movie} alt='movies' /></Link>
             <Link to="/series"><img src={params.pathname === "/series" ? selectedseries : series} alt='tv shows' /></Link>
             <Link to="/bookmarks"><img src={params.pathname === "/bookmarks" ? selectedbookmark : bookmark} alt='saved' /></Link>
