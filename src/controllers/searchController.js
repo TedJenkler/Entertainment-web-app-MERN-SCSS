@@ -11,10 +11,9 @@ const options = {
 };
 
 const searchUrls = [
-    `https://api.themoviedb.org/3/search/multi?query=`,
     `https://api.themoviedb.org/3/search/collection?query=`,
-    `https://api.themoviedb.org/3/search/keyword?query=`,
-    `https://api.themoviedb.org/3/search/company?query=`,
+    `https://api.themoviedb.org/3/search/movie?query=`,
+    `https://api.themoviedb.org/3/search/tv?query=`,
 ];
 
 exports.search = async (req, res, next) => {
