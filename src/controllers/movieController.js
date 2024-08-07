@@ -1,8 +1,46 @@
 const logger = require('../utils/logger');
 const Movie = require('../models/movieModel');
+const axios = require('axios');
+require('dotenv').config();
+const url = 'https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1';
+
+const options = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: `Bearer ${process.env.API_TOKEN}`
+  }
+};
+
+async function fetchTopRatedMovies() {
+  try {
+    const response = await axios({ url, ...options });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      logger.error('API Error Response:', {
+        status: error.response.status,
+        data: error.response.data
+      });
+    } else if (error.request) {
+      logger.error('API Request Error:', { request: error.request });
+    } else {
+      logger.error('API Error:', { message: error.message });
+    }
+    return null;
+  }
+};
 
 exports.toprated = async (req, res, next) => {
   try {
+    const apiMovies = await fetchTopRatedMovies();
+    if (apiMovies && apiMovies.results && apiMovies.results.length > 0) {
+      return res.status(200).json({
+        message: 'Successfully fetched top-rated movies from the API',
+        movies: apiMovies.results
+      });
+    }
+
     const dbMovies = await Movie.find({ topRated: true }).limit(10);
     if (dbMovies.length === 0) {
       logger.info('No top-rated movies found in the database');
