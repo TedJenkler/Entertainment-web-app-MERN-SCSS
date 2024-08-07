@@ -1,0 +1,46 @@
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 1.5rem 0 0 0;
+    gap: 1rem;
+    img {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+    input {
+        width: calc(100% - 1.5rem);
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        &:focus {
+            border-bottom: 0.0625rem solid $greyblue;
+        }
+    }
+}
+
+@include breakpoint(md) {
+    .search {
+        max-width: 41.875rem;
+    }
+}
+
+@include breakpoint(lg) {
+    .search {
+        max-width: 62.8125rem;
+    }
+}
+
+@include breakpoint(xl) {
+    .search {
+        max-width: 83.75rem;
+    }
+}
+
+@include breakpoint(xxl) {
+    .search {
+        max-width: 104.6875rem;
+    }
+}

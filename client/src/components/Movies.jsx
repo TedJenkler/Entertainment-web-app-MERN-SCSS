@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Carousel from './Carousel';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTopRated, getNowPlaying, getPopular, getUpcoming } from '../features/movies/movieSlice';
+import Search from './Search';
 
 function Movies() {
   const toprated = useSelector((state) => state.movies.topRated);
@@ -28,6 +29,7 @@ function Movies() {
 
   return (
     <main>
+      <Search />
       <Carousel h1="Top Rated Movies" data={toprated} />
       <Carousel h1="Now Playing Movies" data={nowplaying} />
       <Carousel h1="Popular Movies" data={popular} />

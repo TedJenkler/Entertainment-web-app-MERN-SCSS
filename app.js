@@ -3,6 +3,7 @@ const logger = require('./src/utils/logger');
 const userRoutes = require('./src/routes/userRoutes');
 const movieRoutes = require('./src/routes/movieRoutes');
 const serieRoutes = require('./src/routes/serieRoutes');
+const searchRoutes = require('./src/routes/searchRoutes');
 const connectDB = require('./src/config/db');
 const errorHandler = require('./src/middlewere/errorHandler');
 const dotenv = require('dotenv');
@@ -25,6 +26,7 @@ const startServer = async () => {
         app.use('/api/users', userRoutes);
         app.use('/api/movies', movieRoutes);
         app.use('/api/series', serieRoutes);
+        app.use('/api/search', searchRoutes);
 
         app.use(errorHandler);
 
