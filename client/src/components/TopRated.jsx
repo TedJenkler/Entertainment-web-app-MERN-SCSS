@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTopRated } from '../features/movies/movieSlice';
 
@@ -6,6 +6,7 @@ function TopRated() {
     const data = useSelector((state) => state.movies.topRated);
     const dispatch = useDispatch();
     const carouselRef = useRef(null);
+    const [atEnd, setAtEnd] = useState(false);
 
     const scrollLeft = () => {
         carouselRef.current.scrollBy({
