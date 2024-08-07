@@ -49,7 +49,7 @@ export const getTopRated = createAsyncThunk(
     }
 );
 
-export const getTrending = createAsyncThunk(
+export const getTrendingSeries = createAsyncThunk(
     'series/trending',
     async (_, { rejectWithValue }) => {
         try {
@@ -125,15 +125,15 @@ const serieSlice = createSlice({
                 state.status = 'failed';
                 state.error = action.payload;
             })
-            .addCase(getTrending.pending, (state) => {
+            .addCase(getTrendingSeries.pending, (state) => {
                 state.status = 'loading';
                 state.error = null;
             })
-            .addCase(getTrending.fulfilled, (state, action) => {
+            .addCase(getTrendingSeries.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.trending = action.payload.series;
             })
-            .addCase(getTrending.rejected, (state, action) => {
+            .addCase(getTrendingSeries.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

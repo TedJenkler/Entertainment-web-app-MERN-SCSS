@@ -1,35 +1,25 @@
-import React, { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPopular } from '../features/series/serieSlice';
+import { useRef } from "react";
 
-function PopularShows() {
-    const data = useSelector((state) => state.series.popular);
-    const dispatch = useDispatch();
+const Carousel = ({ data, h1 }) => {
     const carouselRef = useRef(null);
 
     const scrollLeft = () => {
         carouselRef.current.scrollBy({
             left: -window.innerWidth,
-            behavior: 'smooth',
+            behavior: 'smooth'
         });
     };
 
     const scrollRight = () => {
         carouselRef.current.scrollBy({
             left: window.innerWidth,
-            behavior: 'smooth',
+            behavior: 'smooth'
         });
     };
 
-    useEffect(() => {
-        dispatch(getPopular());
-    }, [dispatch]);
-
-    if (!data || data.length === 0) return <div>Loading...</div>;
-
     return (
         <section className="carousel-section">
-            <h1 className="carousel-header">Popular Shows</h1>
+            <h1 className="carousel-header">{h1}</h1>
             <div className="carousel">
                 <button className="carousel-button prev" onClick={scrollLeft}>
                     ‹
@@ -53,4 +43,4 @@ function PopularShows() {
     );
 }
 
-export default PopularShows;
+export default Carousel;

@@ -49,7 +49,7 @@ export const getUpcoming = createAsyncThunk(
   }
 );
 
-export const getTrending = createAsyncThunk(
+export const getTrendingMovies = createAsyncThunk(
   'movies/trending',
   async (_, { rejectWithValue }) => {
     try {
@@ -125,15 +125,15 @@ const movieSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      .addCase(getTrending.pending, (state) => {
+      .addCase(getTrendingMovies.pending, (state) => {
         state.status = 'loading';
         state.error = null;
       })
-      .addCase(getTrending.fulfilled, (state, action) => {
+      .addCase(getTrendingMovies.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.trending = action.payload.movies;
       })
-      .addCase(getTrending.rejected, (state, action) => {
+      .addCase(getTrendingMovies.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
       })
