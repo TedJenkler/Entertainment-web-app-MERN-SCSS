@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getTopRated, getNowPlaying, getPopular, getUpcoming } from '../features/movies/movieSlice';
 import Search from './Search';
 import DisplaySearchResults from './DisplaySearchResults';
+import Pagination from './Pagination';
 
 function Movies() {
   const toprated = useSelector((state) => state.movies.topRated);
@@ -11,6 +12,8 @@ function Movies() {
   const popular = useSelector((state) => state.movies.popular);
   const upcoming = useSelector((state) => state.movies.upcoming);
   const searchResults = useSelector((state) => state.state.searchResults);
+  const searchPages = useSelector((state) => state.state.searchPages);
+  console.log(searchPages)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,7 +36,10 @@ function Movies() {
     <main>
       <Search />
       {searchResults.length > 0 ? (
-        <DisplaySearchResults />
+        <>
+          <DisplaySearchResults />
+          <Pagination totalPages={searchPages.total_pages} currentPage={searchPages.page} results={searchPages.total_results} />
+        </>
       ) : (
         <>
           <Carousel h1="Top Rated Movies" data={toprated} />

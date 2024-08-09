@@ -3,9 +3,11 @@ import axios from "axios";
 
 export const search = createAsyncThunk(
     'state/search',
-    async (query, { rejectWithValue }) => {
+    async ({ query, page = 1 }, { rejectWithValue }) => {
         try {
-            const response = await axios.get(`http://localhost:2000/api/search/${query}`);
+            const response = await axios.get(
+                `http://localhost:2000/api/search?query=${encodeURIComponent(query)}&page=${page}`
+            );
             return response.data;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -15,6 +17,8 @@ export const search = createAsyncThunk(
 
 const initialState = {
     searchResults: [],
+    searchPages: null,
+    query: null,
     loading: false,
     error: null
 };
@@ -30,7 +34,9 @@ const stateSlice = createSlice({
                 state.error = null;
             })
             .addCase(search.fulfilled, (state, action) => {
+                state.query = action.payload.query;
                 state.searchResults = action.payload.data;
+                state.searchPages = action.payload.pages;
                 state.loading = false;
             })
             .addCase(search.rejected, (state, action) => {

@@ -1,0 +1,24 @@
+.search_results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20.9375rem, 1fr));
+    gap: 2.5rem;
+    max-width: 100%;
+    padding: 5rem 0;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 20.9375rem;
+        background-color: $semidarkblue;
+        color: white;
+        border-radius: 0.625rem;
+        border: none;
+
+        img {
+            max-width: 100%;
+            border-radius: 0.625rem 0.625rem 0 0;
+            border: none;
+        }
+    }
+}

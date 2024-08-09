@@ -5,7 +5,7 @@ function DisplaySearchResults() {
     const data = useSelector((state) => state.state.searchResults);
 
     return (
-        <div>
+        <div className='search_results'>
             {data.length > 0 ? (
                 data.map((item) => (
                     item.poster_path ? (

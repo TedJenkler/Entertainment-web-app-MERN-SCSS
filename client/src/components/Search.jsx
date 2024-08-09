@@ -19,7 +19,9 @@ const Search = () => {
 
     const debouncedSearch = useCallback(
         debounce((query) => {
-            dispatch(search(query));
+            if (query.trim()) {
+                dispatch(search({ query, page: 1 }));
+            }
         }, 500),
         [dispatch]
     );
