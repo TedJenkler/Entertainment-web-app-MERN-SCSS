@@ -13,6 +13,7 @@ This is a solution to the [Entertainment web app challenge on Frontend Mentor](h
 - [My Process](#my-process)
 - [Useful Resources](#useful-resources)
 - [Author](#author)
+- [Acknowledgments](#acknowledgments)
 
 ## Overview
 
@@ -88,3 +89,7 @@ Users should be able to:
 - Frontend Mentor - [@TedJenkler](https://www.frontendmentor.io/profile/TedJenkler)
 - LinkedIn - [Teodor Jenkler](https://www.linkedin.com/in/tedjenklerwebdeveloper/)
 - X - [@TJenkler](https://x.com/TJenkler)
+
+## Acknowledgments
+
+<a href="https://www.flaticon.com/free-icons/shutdown" title="shutdown icons">Shutdown icons created by Fathema Khanom - Flaticon</a>

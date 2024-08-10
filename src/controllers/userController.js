@@ -7,7 +7,6 @@ require('dotenv').config();
 
 // TMDB
 
-
 const options = {
     getToken: {
       method: 'GET',
@@ -18,6 +17,14 @@ const options = {
     },
     postAction: {
       method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        Authorization: `Bearer ${process.env.API_TOKEN}`
+      }
+    },
+    deleteAction: {
+      method: 'DELETE',
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
@@ -63,6 +70,41 @@ exports.tmdbLogin = async (req, res, next) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+/*   Not currently working
+
+exports.tmdblogout = async (req, res, next) => {
+    const { session_id } = req.body;
+    const url = 'https://api.themoviedb.org/3/authentication/session';
+    
+    console.log('TMDB Logout initiated...');
+    console.log('Request Body:', req.body);
+    console.log('Session ID:', session_id);
+  
+    try {
+      const response = await axios({
+        url,
+        ...options.deleteAction,
+        data: { session_id }
+      });
+      
+      const result = response.data;
+      console.log('TMDB Logout successful');
+      console.log('Response Data:', result);
+  
+      res.status(200).json({ message: 'Successfully logged out', result });
+    } catch (error) {
+      console.error('Error logging out:', error.message);
+      if (error.response) {
+          console.error('Error Details:', error.response.data);
+      } else {
+          console.error('No response data');
+      }
+      
+      logger.error('Couldn\'t logout of TMDB', { error: error.message });
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };  */
 
 //
 

@@ -9,6 +9,7 @@ const registerLimiter = require('../middlewere/rateLimiter');
 
 router.get('/token', userController.getToken);
 router.post('/tmdb/login', userController.tmdbLogin);
+// router.delete('/tmdblogout', userController.tmdblogout);
 
 router.get('/', userController.getAll);
 router.post('/', registerLimiter, registerValidationRules(), validate, userController.register);

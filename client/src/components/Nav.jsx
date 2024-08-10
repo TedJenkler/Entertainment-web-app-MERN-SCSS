@@ -5,6 +5,7 @@ import series from "../assets/images/series.png"
 import bookmark from "../assets/images/Bookmark.png"
 import movie from "../assets/images/movie.png"
 import oval from "../assets/images/Oval.png"
+import logout from "../assets/images/logout.png"
 import selectedhome  from "../assets/images/selectedhome.png"
 import selectedMovie from "../assets/images/selectedmovie.png"
 import selectedseries from "../assets/images/selectedseries.png"
@@ -13,6 +14,11 @@ import { Link, useLocation } from 'react-router-dom'
 
 function Nav() {
   const params = useLocation();
+
+  const handleLogout = () => {
+
+  };
+
   return (
     <nav>
         <div>
@@ -24,7 +30,10 @@ function Nav() {
             <Link to="/bookmarks"><img src={params.pathname === "/bookmarks" ? selectedbookmark : bookmark} alt='saved' /></Link>
           </div>
         </div>
-        <img className='profile' src={oval} alt='profile' />
+        <div className='user_container'>
+          <img className='profile' src={oval} alt='profile' />
+          <img onClick={handleLogout} className='logout_login' src={logout} alt='logout/login' />
+        </div>
     </nav>
   )
 }
