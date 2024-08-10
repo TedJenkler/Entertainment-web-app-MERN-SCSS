@@ -103,7 +103,11 @@ exports.tmdbLogin = async (req, res, next) => {
             logger.info(`New user ${username} has been added.`);
         }
 
-        res.status(200).json({ message: 'Successfully logged in', session });
+        res.status(200).json({
+            message: 'Successfully logged in',
+            session: session,
+            username: username
+          });
     } catch (error) {
         logger.error(`Couldn't log in to TMDB: ${error.message}`);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -147,6 +151,30 @@ exports.getAll = async (req, res, next) => {
         res.status(200).json({ message: 'Successfully fetched users', users });
     } catch (error) {
         logger.error('Could not fetch users', { error });
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+exports.getByUsername = async (req, res, next) => {
+    try {
+        const { username } = req.query;
+        if (!username) {
+            logger.info('Username not provided');
+            return res.status(400).json({ message: 'Username is required' });
+        }
+
+        const user = await User.findOne({ username }, '-password');
+        if (!user) {
+            logger.info('Cannot find user', { username });
+            return res.status(404).json({ message: 'Error finding user by username' });
+        }
+
+        res.status(200).json({ 
+            message: 'Successfully found user by username', 
+            user 
+        });
+    } catch (error) {
+        logger.error('Could not fetch user', { error });
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };

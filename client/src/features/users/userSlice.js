@@ -14,15 +14,30 @@ export const register = createAsyncThunk(
 );
 
 export const login = createAsyncThunk(
-    'user/login',
-    async ({ email, password }, { rejectWithValue }) => {
-        try {
-            const response = await axios.post('http://localhost:2000/api/users/login', { email, password });
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response?.data?.message || error.message);
-        }
+  'user/login',
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('http://localhost:2000/api/users/login', { email, password });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
+  }
+);
+
+export const getUserByUsername = createAsyncThunk(
+  'user/getUserByUsername',
+  async ({ username }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get('http://localhost:2000/api/users/username', {
+        params: { username },
+      });
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || error.message;
+      return rejectWithValue(errorMessage);
+    }
+  }
 );
 
 export const loginTMDB = createAsyncThunk(
@@ -34,12 +49,11 @@ export const loginTMDB = createAsyncThunk(
 
       const loginData = { username, password, request_token };
       const loginResponse = await axios.post(
-        'http://localhost:2000/api/users/tmdb/login', 
+        'http://localhost:2000/api/users/tmdb/login',
         loginData
       );
-      
-      const session = loginResponse.data.session;
-      return { session };
+
+      return loginResponse.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -74,18 +88,17 @@ export const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload;
         state.error = null;
-        localStorage.setItem("user", action.payload.user.id)
-        localStorage.setItem("email", action.payload.user.email)
-        localStorage.setItem("token", action.payload.token)
+        localStorage.setItem("user", action.payload.user.id);
+        localStorage.setItem("email", action.payload.user.email);
+        localStorage.setItem("token", action.payload.token);
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
-        localStorage.setItem("user", null)
-        localStorage.setItem("email", null)
-        localStorage.setItem("token", null)
+        localStorage.removeItem("user");
+        localStorage.removeItem("email");
+        localStorage.removeItem("token");
       })
       .addCase(loginTMDB.pending, (state) => {
         state.status = 'loading';
@@ -93,14 +106,27 @@ export const userSlice = createSlice({
       })
       .addCase(loginTMDB.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        localStorage.setItem("session", action.payload.session.request_token);
-        localStorage.setItem("expires_at", action.payload.session.expires_at);
+        localStorage.setItem("session", action.payload.session);
+        localStorage.setItem("user", action.payload.username);
+        console.log(action.payload);
         state.error = null;
       })
       .addCase(loginTMDB.rejected, (state, action) => {
         state.status = 'failed';
-        localStorage.setItem("session", null);
-        localStorage.setItem("expires_at", null);
+        state.error = action.payload;
+        localStorage.removeItem("session");
+      })
+      .addCase(getUserByUsername.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(getUserByUsername.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.user = action.payload.user;
+        state.error = null;
+      })
+      .addCase(getUserByUsername.rejected, (state, action) => {
+        state.status = 'failed';
         state.error = action.payload;
       });
   }

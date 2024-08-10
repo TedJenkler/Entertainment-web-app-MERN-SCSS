@@ -23,17 +23,9 @@ function Login() {
   }, [dispatch, navigate]);
 
   useEffect(() => {
-    const session = localStorage.getItem('expires_at');
-    if (session) {
-      const sessionDate = new Date(session);
-      const currentDate = new Date();
-      if (currentDate < sessionDate) {
-        navigate("/home");
-      } else {
-        console.log('Invalid session, try logging in again');
-      }
-    } else {
-      console.log('Session not found, try logging in again');
+    const session = localStorage.getItem('session');
+    if(session !== null && session !== undefined) {
+      navigate("/home")
     }
   }, [dispatch, navigate]);
 
