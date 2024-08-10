@@ -8,36 +8,36 @@ require('dotenv').config();
 // TMDB
 
 const options = {
-    getToken: {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${process.env.API_TOKEN}`
-      }
+    getAction: {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${process.env.API_TOKEN}`
+        }
     },
     postAction: {
-      method: 'POST',
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json',
-        Authorization: `Bearer ${process.env.API_TOKEN}`
-      }
+        method: 'POST',
+        headers: {
+            accept: 'application/json',
+            'content-type': 'application/json',
+            Authorization: `Bearer ${process.env.API_TOKEN}`
+        }
     },
     deleteAction: {
-      method: 'DELETE',
-      headers: {
-        accept: 'application/json',
-        'content-type': 'application/json',
-        Authorization: `Bearer ${process.env.API_TOKEN}`
-      }
+        method: 'DELETE',
+        headers: {
+            accept: 'application/json',
+            'content-type': 'application/json',
+            Authorization: `Bearer ${process.env.API_TOKEN}`
+        }
     }
-  };
+};
 
 exports.getToken = async (req, res, next) => {
     const url = 'https://api.themoviedb.org/3/authentication/token/new';
     
     try {
-        const response = await axios(url, options.getToken);
+        const response = await axios(url, options.getAction);
         const token = response.data.request_token;
 
         res.status(200).json({ message: 'Successfully fetched token', token });
@@ -49,62 +49,90 @@ exports.getToken = async (req, res, next) => {
 
 exports.tmdbLogin = async (req, res, next) => {
     const { username, password, request_token } = req.body;
-    const url = 'https://api.themoviedb.org/3/authentication/token/validate_with_login';
+    const validateURL = 'https://api.themoviedb.org/3/authentication/token/validate_with_login';
+    const sessionURL = 'https://api.themoviedb.org/3/authentication/session/new';
 
-    const postAction = {
-      ...options.postAction,
-      data: {
-        username,
-        password,
-        request_token
-      }
+    const validateAction = {
+        ...options.postAction,
+        data: {
+            username,
+            password,
+            request_token
+        }
     };
 
     try {
-        const response = await axios(url, postAction);
-        const session = response.data;
-        
+        const validateResponse = await axios(validateURL, validateAction);
+        const validatedToken = validateResponse.data.request_token;
+
+        const loginAction = {
+            ...options.postAction,
+            data: { request_token: validatedToken }
+        };
+        const sessionResponse = await axios(sessionURL, loginAction);
+        const session = sessionResponse.data.session_id;
+
+        const userDataURL = `https://api.themoviedb.org/3/account?session_id=${session}`;
+        const fetchUserResponse = await axios.get(userDataURL, { headers: options.getAction.headers });
+        const userData = fetchUserResponse.data;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await User.findOne({ username });
+        if (user) {
+            await User.updateOne({ username }, {
+                $set: {
+                    tmdbid: userData.id,
+                    name: userData.name,
+                    include_adult: userData.include_adult,
+                    password: hashedPassword,
+                    avatar_path: userData.avatar?.tmdb.avatar_path
+                }
+            });
+            logger.info(`User ${username} has been updated.`);
+        } else {
+            const newUser = new User({
+                username,
+                password: hashedPassword,
+                tmdbid: userData.id,
+                name: userData.name,
+                include_adult: userData.include_adult,
+                avatar_path: userData.avatar?.tmdb.avatar_path
+            });
+            await newUser.save();
+            logger.info(`New user ${username} has been added.`);
+        }
+
         res.status(200).json({ message: 'Successfully logged in', session });
     } catch (error) {
-        logger.error('Couldn\'t login to TMDB', { error: error.message });
+        logger.error(`Couldn't log in to TMDB: ${error.message}`);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
-/*   Not currently working
-
 exports.tmdblogout = async (req, res, next) => {
     const { session_id } = req.body;
     const url = 'https://api.themoviedb.org/3/authentication/session';
-    
-    console.log('TMDB Logout initiated...');
-    console.log('Request Body:', req.body);
-    console.log('Session ID:', session_id);
-  
+
     try {
-      const response = await axios({
-        url,
-        ...options.deleteAction,
-        data: { session_id }
-      });
-      
-      const result = response.data;
-      console.log('TMDB Logout successful');
-      console.log('Response Data:', result);
-  
-      res.status(200).json({ message: 'Successfully logged out', result });
+        const response = await axios({
+            url,
+            ...options.deleteAction,
+            data: { session_id }
+        });
+        
+        const result = response.data;
+        res.status(200).json({ message: 'Successfully logged out', result });
     } catch (error) {
-      console.error('Error logging out:', error.message);
-      if (error.response) {
-          console.error('Error Details:', error.response.data);
-      } else {
-          console.error('No response data');
-      }
-      
-      logger.error('Couldn\'t logout of TMDB', { error: error.message });
-      res.status(500).json({ message: 'Internal Server Error' });
+        if (error.response) {
+            logger.error(`Error logging out: ${error.response.data}`, { error: error.message });
+        } else {
+            logger.error('Error logging out: No response data', { error: error.message });
+        }
+
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  };  */
+};
 
 //
 
@@ -125,17 +153,23 @@ exports.getAll = async (req, res, next) => {
 
 exports.register = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            return res.status(400).json({ message: 'Email and password are required' });
+        const { username, email, password } = req.body;
+        if (!username || !email || !password) {
+            return res.status(400).json({ message: 'Username, Email and password are required' });
         }
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ username });
         if (existingUser) {
+            return res.status(400).json({ message: 'User already in use' });
+        }
+
+        const existingEmail = await User.findOne({ email });
+        if (existingEmail) {
             return res.status(400).json({ message: 'Email already in use' });
         }
 
         const newUser = new User({
+            username,
             email,
             password
         });

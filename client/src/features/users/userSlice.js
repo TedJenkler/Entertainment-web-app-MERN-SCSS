@@ -3,9 +3,9 @@ import axios from "axios";
 
 export const register = createAsyncThunk(
   'user/register',
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ username, email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://localhost:2000/api/users', { email, password });
+      const response = await axios.post('http://localhost:2000/api/users', { username, email, password });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -64,16 +64,10 @@ export const userSlice = createSlice({
       .addCase(register.fulfilled, (state) => {
         state.status = 'succeeded';
         state.error = null;
-        localStorage.setItem("user", null)
-        localStorage.setItem("email", null)
-        localStorage.setItem("token", null)
       })
       .addCase(register.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload;
-        localStorage.setItem("user", null)
-        localStorage.setItem("email", null)
-        localStorage.setItem("token", null)
       })
       .addCase(login.pending, (state) => {
         state.status = 'loading';

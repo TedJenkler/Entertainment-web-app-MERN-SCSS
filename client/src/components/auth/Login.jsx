@@ -17,7 +17,6 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const session = localStorage.getItem('expires_at')
     if (token !== null && token !== '') {
       navigate("/home");
     }

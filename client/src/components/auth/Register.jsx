@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
 import icon from '../../assets/images/Movie.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../../features/users/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Register() {
-  const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
-  const [formError, setFormError] = useState({ email: "", password: "", confirmPassword: "" });
+  const [formData, setFormData] = useState({ username: "", email: "", password: "", confirmPassword: "" });
+  const [formError, setFormError] = useState({ username: "", email: "", password: "", confirmPassword: "" });
 
-  const error = useSelector((state) => state.auth.error)
+  const error = useSelector((state) => state.auth.error);
 
   console.log(error);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validateField = (name, value) => {
     switch (name) {
+      case 'username':
+        if (value.trim() === "") {
+          return "Can’t be empty";
+        }
+        return "";
       case 'email':
         if (value.trim() === "") {
           return "Can’t be empty";
@@ -55,24 +61,28 @@ function Register() {
   };
 
   const validateForm = () => {
+    const usernameError = validateField('username', formData.username);
     const emailError = validateField('email', formData.email);
     const passwordError = validateField('password', formData.password);
     const confirmPasswordError = validateField('confirmPassword', formData.confirmPassword);
 
     setFormError({
+      username: usernameError,
       email: emailError,
       password: passwordError,
       confirmPassword: confirmPasswordError
     });
 
-    return !emailError && !passwordError && !confirmPasswordError;
+    return !usernameError && !emailError && !passwordError && !confirmPasswordError;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      const { email, password } = formData;
-      dispatch(register({ email, password }));
+      const { username, email, password } = formData;
+      dispatch(register({ username, email, password }));
+      setFormData({ username: "", email: "", password: "", confirmPassword: "" });
+      navigate("/");
     }
   };
 
@@ -84,8 +94,19 @@ function Register() {
         <label>
           <input
             onChange={handleChange}
-            value={formData.email}
+            value={formData.username}
             type='text'
+            name='username'
+            placeholder='Username'
+            autoComplete='username'
+          />
+          {formError.username && <span>{formError.username}</span>}
+        </label>
+        <label>
+          <input
+            onChange={handleChange}
+            value={formData.email}
+            type='email'
             name='email'
             placeholder='Email address'
             autoComplete='email'
