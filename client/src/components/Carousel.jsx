@@ -5,14 +5,14 @@ const Carousel = ({ data, h1 }) => {
 
     const scrollLeft = () => {
         carouselRef.current.scrollBy({
-            left: -window.innerWidth,
+            left: -window.innerWidth - 335,
             behavior: 'smooth'
         });
     };
 
     const scrollRight = () => {
         carouselRef.current.scrollBy({
-            left: window.innerWidth,
+            left: window.innerWidth - 335,
             behavior: 'smooth'
         });
     };
