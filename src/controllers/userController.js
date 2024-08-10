@@ -1,7 +1,70 @@
+const axios = require('axios');
 const User = require('../models/userModel');
 const logger = require('../utils/logger');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+// TMDB
+
+
+const options = {
+    getToken: {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${process.env.API_TOKEN}`
+      }
+    },
+    postAction: {
+      method: 'POST',
+      headers: {
+        accept: 'application/json',
+        'content-type': 'application/json',
+        Authorization: `Bearer ${process.env.API_TOKEN}`
+      }
+    }
+  };
+
+exports.getToken = async (req, res, next) => {
+    const url = 'https://api.themoviedb.org/3/authentication/token/new';
+    
+    try {
+        const response = await axios(url, options.getToken);
+        const token = response.data.request_token;
+
+        res.status(200).json({ message: 'Successfully fetched token', token });
+    } catch (error) {
+        logger.error('Couldn\'t get token from TMDB', { error: error.message });
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+exports.tmdbLogin = async (req, res, next) => {
+    const { username, password, request_token } = req.body;
+    const url = 'https://api.themoviedb.org/3/authentication/token/validate_with_login';
+
+    const postAction = {
+      ...options.postAction,
+      data: {
+        username,
+        password,
+        request_token
+      }
+    };
+
+    try {
+        const response = await axios(url, postAction);
+        const session = response.data;
+        
+        res.status(200).json({ message: 'Successfully logged in', session });
+    } catch (error) {
+        logger.error('Couldn\'t login to TMDB', { error: error.message });
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+//
 
 exports.getAll = async (req, res, next) => {
     try {

@@ -5,6 +5,11 @@ const { registerValidationRules } = require('../validators/userValidator');
 const { validate } = require('../validators');
 const registerLimiter = require('../middlewere/rateLimiter');
 
+// TMDB
+
+router.get('/token', userController.getToken);
+router.post('/tmdb/login', userController.tmdbLogin);
+
 router.get('/', userController.getAll);
 router.post('/', registerLimiter, registerValidationRules(), validate, userController.register);
 router.post('/login', userController.login);

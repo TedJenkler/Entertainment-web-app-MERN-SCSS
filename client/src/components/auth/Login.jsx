@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import icon from '../../assets/images/Movie.png';
 import { Link } from 'react-router-dom';
-import { login } from '../../features/users/userSlice';
+import { login, loginTMDB } from '../../features/users/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [formError, setFormError] = useState({ email: "", password: "" });
+  const [tmdbMode, setTmdbMode] = useState(false);
 
   const navigate = useNavigate();
   const error = useSelector((state) => state.auth.error);
@@ -16,10 +17,26 @@ function Login() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const session = localStorage.getItem('expires_at')
     if (token !== null && token !== '') {
-      navigate("/home")
+      navigate("/home");
     }
-  }, [dispatch]);
+  }, [dispatch, navigate]);
+
+  useEffect(() => {
+    const session = localStorage.getItem('expires_at');
+    if (session) {
+      const sessionDate = new Date(session);
+      const currentDate = new Date();
+      if (currentDate < sessionDate) {
+        navigate("/home");
+      } else {
+        console.log('Invalid session, try logging in again');
+      }
+    } else {
+      console.log('Session not found, try logging in again');
+    }
+  }, [dispatch, navigate]);
 
   const validateField = (name, value) => {
     switch (name) {
@@ -69,14 +86,28 @@ function Login() {
     e.preventDefault();
     if (validateForm()) {
       const { email, password } = formData;
-      dispatch(login({ email, password }))
+      dispatch(login({ email, password }));
     }
+  };
+
+  const handleTMDB = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      const { email, password } = formData;
+      dispatch(loginTMDB({ username: email, password }));
+    }
+  };
+
+  const toggleMode = () => {
+    setTmdbMode((prevMode) => !prevMode);
+    setFormData({ email: "", password: "" });
+    setFormError({ email: "", password: "" });
   };
 
   return (
     <div className='bgauth'>
       <img src={icon} alt='icon' />
-      <form className='login' onSubmit={handleSubmit}>
+      <form className='login'>
         <h1>Login</h1>
         <label>
           <input
@@ -84,8 +115,7 @@ function Login() {
             value={formData.email}
             type='text'
             name='email'
-            placeholder='Email address'
-            autoComplete='email'
+            placeholder={tmdbMode ? 'TMDB Username' : 'Email address'}
           />
           {formError.email && <span>{formError.email}</span>}
         </label>
@@ -101,7 +131,14 @@ function Login() {
           />
           {formError.password && <span>{formError.password}</span>}
         </label>
-        <button type='submit'>Login to your account</button>
+        {!tmdbMode ? (
+          <button onClick={handleSubmit}>Login to your account</button>
+        ) : (
+          <button onClick={handleTMDB}>Login to your TMDB account</button>
+        )}
+        <button type="button" onClick={toggleMode}>
+          {tmdbMode ? 'Use this site email login' : 'Use TMDB login'}
+        </button>
         <div>
           <p>Don’t have an account?</p>
           <Link to="/register">Sign Up</Link>
