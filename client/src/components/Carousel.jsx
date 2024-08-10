@@ -31,7 +31,7 @@ const Carousel = ({ data, h1 }) => {
                                 src={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
                                 alt={card.title}
                             />
-                            <h3 className="card-title">{card.title}</h3>
+                            <h3 className="card-title">{card.title || card.name}</h3>
                         </div>
                     ))}
                 </div>
