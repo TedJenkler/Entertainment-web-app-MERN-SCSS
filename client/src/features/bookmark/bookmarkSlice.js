@@ -16,9 +16,39 @@ export const addBookmark = createAsyncThunk(
     }
 );
 
+export const getMovies = createAsyncThunk(
+    'bookmark/getMovies',
+    async (userid, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                'http://localhost:2000/api/bookmark/movies', 
+                { params: { userid }}
+            );
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const getSeries = createAsyncThunk(
+    'bookmark/getSeries',
+    async (userid, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(
+                'http://localhost:2000/api/bookmark/series', 
+                { params: { userid }}
+            );
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 const initialState = {
-    watchlistmovies: [],
-    watchlistseries: [],
+    watchlistMovies: [],
+    watchlistSeries: [],
     status: 'idle',
     error: null
 };
@@ -36,6 +66,28 @@ const bookmarkSlice = createSlice({
                 state.status = 'succeeded';
             })
             .addCase(addBookmark.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(getMovies.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getMovies.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.watchlistMovies = action.payload.data.results;
+            })
+            .addCase(getMovies.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(getSeries.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getSeries.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.watchlistSeries = action.payload.data.results;
+            })
+            .addCase(getSeries.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

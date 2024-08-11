@@ -10,7 +10,6 @@ const Carousel = ({ data, h1 }) => {
     const [menu, setMenu] = useState(false);
     const dispatch = useDispatch();
     const userid = useSelector((state) => state.auth.user?.tmdbid);
-    console.log(userid);
 
     const scrollLeft = () => {
         carouselRef.current.scrollBy({
@@ -33,8 +32,6 @@ const Carousel = ({ data, h1 }) => {
     const handleBookmark = (id, media_type) => {
         dispatch(addBookmark({ userid, media_id: id, media_type }));
     };
-
-    console.log(menu);
 
     return (
         <section className="carousel-section">

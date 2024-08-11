@@ -13,7 +13,6 @@ function Movies() {
   const upcoming = useSelector((state) => state.movies.upcoming);
   const searchResults = useSelector((state) => state.state.searchResults);
   const searchPages = useSelector((state) => state.state.searchPages);
-  console.log(searchPages)
   const dispatch = useDispatch();
 
   useEffect(() => {
