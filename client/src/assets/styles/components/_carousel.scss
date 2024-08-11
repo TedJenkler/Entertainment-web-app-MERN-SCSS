@@ -37,6 +37,7 @@
 
 .card {
     flex: 0 0 auto;
+    position: relative;
     width: 21rem;
     scroll-snap-align: start;
     box-sizing: border-box;
@@ -49,6 +50,30 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+
+    .settings {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        img {
+            height: 1.6rem;
+            width: 1.6rem;
+        }
+    }
+}
+
+.card_menu {
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        img {
+            height: 17.27px;
+            width: 17.27px;
+        }
+    }
 }
 
 .card img {
@@ -113,33 +138,31 @@
 
 @include breakpoint(lg) {
     .carousel-section {
-        width: 1005px;
+        width: 62.8125rem;
         margin: 0;
     }
 
     .carousel {
-        width: 1005px;
+        width: 62.8125rem;
     }
 }
 
 @include breakpoint(xxl) {
     .carousel-section {
-
-        width: 1340px;
+        width: 83.75rem;
     }
 
     .carousel {
-        width: 1340px;
+        width: 83.75rem;
     }
 }
 
 @include breakpoint(xxxl) {
     .carousel-section {
-        
-        width: 1675px;
+        width: 104.6875rem;
     }
 
     .carousel {
-        width: 1675px;
+        width: 104.6875rem;
     }
 }

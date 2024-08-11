@@ -93,3 +93,4 @@ Users should be able to:
 ## Acknowledgments
 
 <a href="https://www.flaticon.com/free-icons/shutdown" title="shutdown icons">Shutdown icons created by Fathema Khanom - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/three-dots" title="three dots icons">Three dots icons created by hqrloveq - Flaticon</a>
