@@ -6,6 +6,7 @@ const serieRoutes = require('./src/routes/serieRoutes');
 const searchRoutes = require('./src/routes/searchRoutes');
 const bookmarkRoutes = require('./src/routes/bookmarkRoutes');
 const favoriteRoutes = require('./src/routes/favoriteRoutes');
+const listRoutes = require('./src/routes/listRoutes');
 const connectDB = require('./src/config/db');
 const errorHandler = require('./src/middlewere/errorHandler');
 const dotenv = require('dotenv');
@@ -31,6 +32,7 @@ const startServer = async () => {
         app.use('/api/search', searchRoutes);
         app.use('/api/bookmark', bookmarkRoutes);
         app.use('/api/favorite', favoriteRoutes);
+        app.use('/api/lists', listRoutes);
 
         app.use(errorHandler);
 
