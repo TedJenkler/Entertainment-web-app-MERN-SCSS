@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Carousel from "./components/Carousel";
 import { getTrendingMovies } from "./features/movies/movieSlice";
 import { getTrendingSeries } from "./features/series/serieSlice";
+import Carousel2 from "./components/Carousel2";
 
 function App() {
   const trendingmovies = useSelector((state) => state.movies.trending);
@@ -19,8 +20,8 @@ function App() {
 
   return (
     <main>
-      <Carousel h1="Trending Movies" data={trendingmovies} />
-      <Carousel h1="Trending Series" data={trendingseries} />
+      <Carousel2 h1="Trending Movies" data={trendingmovies} />
+      <Carousel2 h1="Trending Series" data={trendingseries} />
     </main>
   );
 }

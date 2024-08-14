@@ -1,44 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import settings from '../assets/images/settings.png';
 import bookmark from '../assets/images/Bookmark.png';
 import favorite from '../assets/images/like.png';
-import { useDispatch, useSelector } from "react-redux";
 import { addBookmark } from "../features/bookmark/bookmarkSlice";
 import { addFavorite } from "../features/favorite/favoriteSlice";
+import useCarousel from "../hooks/useCarousel";
+import useHandleClickOutside from "../hooks/useHandleClickOutside";
 
 const Carousel = ({ data, h1 }) => {
-    const carouselRef = useRef(null);
-    const menuRef = useRef(null);
     const [menu, setMenu] = useState(null);
     const dispatch = useDispatch();
     const userid = useSelector((state) => state.auth.user?.tmdbid);
+    const { clickOutsideRef } = useHandleClickOutside(setMenu);
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setMenu(null);
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [menuRef]);
-
-    const scrollLeft = () => {
-        carouselRef.current.scrollBy({
-            left: -window.innerWidth - 335,
-            behavior: 'smooth'
-        });
-    };
-
-    const scrollRight = () => {
-        carouselRef.current.scrollBy({
-            left: window.innerWidth - 335,
-            behavior: 'smooth'
-        });
-    };
+    const { carouselRef, scrollLeft, scrollRight } = useCarousel();
 
     const handleMenu = (id) => {
         setMenu(prevMenu => (prevMenu === id ? null : id));
@@ -61,7 +37,7 @@ const Carousel = ({ data, h1 }) => {
                 </button>
                 <div className="carousel-container" ref={carouselRef}>
                     {data.map((card, index) => (
-                        <div className="card" key={index} ref={menu === card.id ? menuRef : null}>
+                        <div className="card" key={index} ref={menu === card.id ? clickOutsideRef : null}>
                             <div className="settings">
                                 <img onClick={() => handleMenu(card.id)} src={settings} alt="settings" />
                             </div>
@@ -79,7 +55,7 @@ const Carousel = ({ data, h1 }) => {
                             ) : (
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
-                                    alt={card.title}
+                                    alt={card.title || card.name}
                                 />
                             )}
                             <h3 className="card-title">{card.title || card.name}</h3>
