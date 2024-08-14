@@ -9,5 +9,11 @@ router.get('/popular', serieController.popular);
 router.get('/toprated', serieController.toprated);
 router.get('/trending', serieController.trending);
 
+// series
+
+router.get('/rating', serieController.rating);
+router.post('/rating/add', serieController.addrating);
+router.delete('/rating/delete', serieController.deleterating);
+
 module.exports = router;
 
