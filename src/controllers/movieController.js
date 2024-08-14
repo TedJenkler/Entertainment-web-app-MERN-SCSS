@@ -11,7 +11,7 @@ const url = {
   trending: 'https://api.themoviedb.org/3/trending/movie/day?language=en-US'
 };
 
-const options = {
+const getAction = {
   method: 'GET',
   headers: {
     accept: 'application/json',
@@ -19,9 +19,27 @@ const options = {
   }
 };
 
+const postAction = {
+  method: 'POST',
+  headers: {
+    accept: 'application/json',
+    'content-type': 'application/json',
+    Authorization: `Bearer ${process.env.API_TOKEN}`
+  }
+};
+
+const deleteAction = {
+  method: 'DELETE',
+  headers: {
+    accept: 'application/json',
+    'Content-Type': 'application/json;charset=utf-8',
+    Authorization: `Bearer ${process.env.API_TOKEN}`
+  }
+};
+
 async function fetchMovies(url) {
   try {
-    const response = await axios({ url, ...options });
+    const response = await axios({ url, ...getAction });
     logger.info('API Response:', { data: response.data });
     return response.data;
   } catch (error) {
@@ -37,7 +55,7 @@ async function fetchMovies(url) {
     }
     return null;
   }
-}
+};
 
 exports.toprated = async (req, res, next) => {
   try {
@@ -195,5 +213,73 @@ exports.addMany = async (req, res) => {
   } catch (error) {
     logger.error('Could not add movies to database', { error });
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+// rating
+
+exports.rating = async (req, res, next) => {
+  const { account_id, session_id } = req.body;
+  if (!account_id || !session_id) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const url = `https://api.themoviedb.org/3/account/${account_id}/rated/movies?language=en-US&page=1&session_id=${session_id}&sort_by=created_at.asc`;
+
+  try {
+    const response = await axios({
+      ...getAction,
+      url: url
+    });
+
+    return res.status(200).json({ message: 'Rated movies fetched successfully', response: response.data });
+  } catch (error) {
+    logger.error('Failed to fetch rated movies', { error });
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+exports.addrating = async (req, res, next) => {
+  const { session_id, movie_id, rating } = req.body;
+  if (!session_id || !movie_id || typeof rating !== 'number' || rating < 0.5 || rating > 10) {
+    return res.status(400).json({ error: 'Invalid rating or missing required fields' });
+  }
+
+  const url = `https://api.themoviedb.org/3/movie/${movie_id}/rating?session_id=${session_id}`;
+  
+  try {
+    const response = await axios({
+      ...postAction,
+      url: url,
+      data: {
+        value: rating
+      }
+    });
+
+    return res.status(200).json({ message: 'Rating added successfully', response: response.data });
+  } catch (error) {
+    logger.error('Failed to add rating', { error });
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+exports.deleterating = async (req, res, next) => {
+  const { session_id, movie_id } = req.body;
+  if (!session_id || !movie_id) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const url = `https://api.themoviedb.org/3/movie/${movie_id}/rating?session_id=${session_id}`;
+  
+  try {
+    const response = await axios({
+      ...deleteAction,
+      url: url
+    });
+
+    return res.status(200).json({ message: 'Rating deleted successfully', response: response.data });
+  } catch (error) {
+    logger.error('Failed to delete rating', { error });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 };

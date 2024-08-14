@@ -9,4 +9,10 @@ router.get('/upcoming', movieController.upcoming);
 router.get('/trending', movieController.trending);
 router.post('/addMany', movieController.addMany);
 
+// rating
+
+router.get('/rating', movieController.rating);
+router.post('/rating/add', movieController.addrating);
+router.delete('/rating/delete', movieController.deleterating);
+
 module.exports = router
