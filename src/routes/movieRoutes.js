@@ -11,7 +11,7 @@ router.post('/addMany', movieController.addMany);
 
 // rating
 
-router.get('/rating', movieController.rating);
+router.post('/rating', movieController.rating);
 router.post('/rating/add', movieController.addrating);
 router.delete('/rating/delete', movieController.deleterating);
 

@@ -13,7 +13,7 @@ import { addBookmark } from '../features/bookmark/bookmarkSlice';
 import { addFavorite } from '../features/favorite/favoriteSlice';
 import RatingPopup from './RatingPopup';
 
-const Carousel2 = ({ data, h1 }) => {
+const Carousel2 = ({ data, h1, rated }) => {
   const { carouselRef, scrollLeft, scrollRight } = useCarousel();
   const [menu, setMenu] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
@@ -34,6 +34,10 @@ const Carousel2 = ({ data, h1 }) => {
   const handleFavorite = (id, media_type) => {
     dispatch(addFavorite({ userid, media_id: id, media_type }));
   };
+
+  const listModal = () => {
+
+  }
 
   const handleRatingClick = (card) => {
     setSelectedCard(card);
@@ -90,13 +94,13 @@ const Carousel2 = ({ data, h1 }) => {
                       <img src={bookmark} alt="bookmark" />
                       <p>Bookmark</p>
                     </div>
-                    <div onClick={() => handleFavorite(card.id, card.media_type)}>
+                    <div onClick={() => listModal()}>
                       <img src={list} alt="list" />
                       <p>Add to list</p>
                     </div>
-                    <div>
+                    <div onClick={() => handleFavorite(card.id, card.media_type)}>
                       <img src={favorite} alt="favorite" />
-                      <p>Favourite</p>
+                      <p>Favorite</p>
                     </div>
                     <div onClick={() => handleRatingClick(card)}>
                       <img src={rating} alt="rating" />
@@ -115,6 +119,7 @@ const Carousel2 = ({ data, h1 }) => {
                     ref={clickOutsideRef}
                     card={selectedCard}
                     onClose={() => setSelectedCard(null)}
+                    rating={rated.filter((item) => item.id === card.id)}
                   />
                 ) : null } 
               </div>
