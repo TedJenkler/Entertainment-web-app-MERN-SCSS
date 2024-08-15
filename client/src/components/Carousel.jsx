@@ -7,6 +7,7 @@ import { addBookmark } from "../features/bookmark/bookmarkSlice";
 import { addFavorite } from "../features/favorite/favoriteSlice";
 import useCarousel from "../hooks/useCarousel";
 import useHandleClickOutside from "../hooks/useHandleClickOutside";
+import RatingPopup from "./RatingPopup";
 
 const Carousel = ({ data, h1 }) => {
     const [menu, setMenu] = useState(null);
@@ -51,6 +52,7 @@ const Carousel = ({ data, h1 }) => {
                                         <img src={favorite} alt="favorite" />
                                         <p>favorite</p>
                                     </div>
+                                    <RatingPopup />
                                 </div>
                             ) : (
                                 <img

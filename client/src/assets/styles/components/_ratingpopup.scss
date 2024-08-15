@@ -1,0 +1,33 @@
+.rating_component {
+    position: absolute;
+    bottom: 0.3125rem;
+    left: 1.875rem;
+    z-index: 50;
+  
+    .triangle {
+      position: relative;
+      left: 0.75rem;
+      width: 0;
+      height: 0;
+      border-left: 0.3796875rem solid transparent;
+      border-right: 0.3796875rem solid transparent;
+      border-bottom: 0.6578125rem solid $semidarkblue;
+    }
+  
+    .star_container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.0625rem;
+      width: 6.3125rem;
+      min-height: 1.949375rem;
+      background-color: $semidarkblue;
+      border-radius: 0.25rem;
+      box-shadow: 0px 0.03125rem 0.15625rem rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  .star {
+    width: 0.96875rem;
+    height: 0.90625rem;
+  }  

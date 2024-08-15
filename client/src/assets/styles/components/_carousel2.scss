@@ -180,7 +180,12 @@
           padding: 2.1875rem 0.5rem 2rem 0.5rem;
           height: 14.6875rem;
           width: 10.625rem;
-          background: linear-gradient(0deg, #161D2F 0%, #232D48 61%, #161D2F 100%);
+          background: linear-gradient(0deg, 
+          #333333 0%,
+          #1A2234 30%,  
+          #232D48 60%,
+          #4B5D7A 100%
+          );
           border-radius: 0.625rem;
           border: none;
 

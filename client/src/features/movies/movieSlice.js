@@ -61,6 +61,18 @@ export const getTrendingMovies = createAsyncThunk(
   }
 );
 
+export const addRating = createAsyncThunk(
+  'movies/addRating',
+  async ({ session_id, movie_id, rating }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('http://localhost:2000/api/movies/rating/add', { session_id, movie_id, rating });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const initialState = {
   topRated: [],
   nowPlaying: [],
@@ -137,6 +149,17 @@ const movieSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
+      .addCase(addRating.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(addRating.fulfilled, (state) => {
+        state.status = 'succeeded';
+      })
+      .addCase(addRating.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      });
   }
 });
 
