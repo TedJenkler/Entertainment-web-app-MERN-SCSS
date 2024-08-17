@@ -3,6 +3,7 @@ const router = express.Router();
 const listController = require('../controllers/listController');
 
 router.get('/details', listController.details);
+router.post('/all', listController.getAll);
 router.post('/add', listController.add);
 router.post('/add/movie', listController.movie);
 router.post('/remove/movie', listController.removemovie);

@@ -12,6 +12,7 @@ import arrow from '../assets/images/arrow.png';
 import { addBookmark } from '../features/bookmark/bookmarkSlice';
 import { addFavorite } from '../features/favorite/favoriteSlice';
 import RatingPopup from './RatingPopup';
+import { toggleModal } from '../features/list/listslice';
 
 const Carousel2 = ({ data, h1, rated }) => {
   const { carouselRef, scrollLeft, scrollRight } = useCarousel();
@@ -36,8 +37,8 @@ const Carousel2 = ({ data, h1, rated }) => {
   };
 
   const listModal = () => {
-
-  }
+    dispatch(toggleModal());
+  };
 
   const handleRatingClick = (card) => {
     setSelectedCard(card);

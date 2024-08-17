@@ -41,6 +41,26 @@ const isInList = async ({ movie_id, listid }) => {
     }
 };
 
+exports.getAll = async (req, res, next) => {
+    const { account_id } = req.body;
+    if (!account_id) {
+        return res.status(400).json({ message: 'Account ID is required' });
+    }
+
+    const url = `https://api.themoviedb.org/3/account/${account_id}/lists?page=1`;
+    
+    try {
+        const response = await axios.get(url, {
+            ...getAction,
+        });
+
+        res.status(200).json({ message: 'Lists fetched successfully', data: response.data });
+    } catch (error) {
+        logger.error('Error fetching lists:', { error });
+        return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+    }
+};
+
 exports.details = async (req, res, next) => {
     const { listid } = req.body;
     const url = `https://api.themoviedb.org/3/list/${listid}?language=en-US&page=1`;

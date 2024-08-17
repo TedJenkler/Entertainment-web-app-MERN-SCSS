@@ -5,6 +5,7 @@ import serieSlice from "../features/series/serieSlice";
 import stateSlice from "../features/state/stateSlice";
 import bookmarkSlice from "../features/bookmark/bookmarkSlice";
 import favoriteSlice from "../features/favorite/favoriteSlice";
+import listslice from "../features/list/listslice";
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
         series: serieSlice,
         state: stateSlice,
         bookmarks: bookmarkSlice,
-        favorites: favoriteSlice
+        favorites: favoriteSlice,
+        list: listslice
     },
 });

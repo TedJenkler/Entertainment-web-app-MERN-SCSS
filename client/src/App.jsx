@@ -4,12 +4,14 @@ import Carousel from "./components/Carousel";
 import { getRating, getTrendingMovies } from "./features/movies/movieSlice";
 import { getTrendingSeries } from "./features/series/serieSlice";
 import Carousel2 from "./components/Carousel2";
+import ListModal from "./components/ListModal";
 
 function App() {
   const user = useSelector((state) => state.auth.user)
   const trendingmovies = useSelector((state) => state.movies.trending);
   const trendingseries = useSelector((state) => state.series.trending);
   const ratedMovies = useSelector((state) => state.movies.ratedMovies);
+  const listmodal = useSelector((state) => state.list.modal);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,10 +30,13 @@ function App() {
   }, [dispatch]);
 
   return (
+    <>
+    {listmodal ? <ListModal /> : null}
     <main>
       <Carousel2 h1="Trending Movies" data={trendingmovies} rated={ratedMovies} />
       <Carousel2 h1="Trending Series" data={trendingseries} />
     </main>
+    </>
   );
 }
 
