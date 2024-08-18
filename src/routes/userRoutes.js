@@ -5,11 +5,12 @@ const { registerValidationRules } = require('../validators/userValidator');
 const { validate } = require('../validators');
 const registerLimiter = require('../middlewere/rateLimiter');
 const fetchListTMDB = require('../middlewere/fetchListsTMDB');
+const syncListItems = require('../middlewere/syncListItemsTMDB');
 
 // TMDB
 
 router.get('/token', userController.getToken);
-router.post('/tmdb/login', userController.tmdbLogin, fetchListTMDB, userController.processFetchedLists);
+router.post('/tmdb/login', userController.tmdbLogin, fetchListTMDB, syncListItems, userController.processFetchedLists);
 router.delete('/tmdblogout', userController.tmdblogout);
 
 router.get('/', userController.getAll);

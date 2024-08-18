@@ -16,11 +16,11 @@ const fetchListTMDB = async (req, res, next) => {
     const { account_id } = req.query;
     const getLists = `https://api.themoviedb.org/3/account/${account_id}/lists?page=1`;
 
+    req.lists = [];
+
     try {
         const response = await axios(getLists, getAction);
         const lists = response.data.results;
-
-        req.lists = [];
 
         const user = await User.findOne({ account_id });
         if (!user) {
@@ -68,7 +68,7 @@ const fetchListTMDB = async (req, res, next) => {
         }
 
         await user.save();
-
+        console.log(req.lists)
         next();
     } catch (error) {
         logger.error('Could not sync list data', { error });

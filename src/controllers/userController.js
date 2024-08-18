@@ -113,14 +113,12 @@ exports.tmdbLogin = async (req, res, next) => {
     }
 };
 
-exports.processFetchedLists = (req, res) => {
-    const lists = req.lists;
+exports.processFetchedLists = async (req, res) => {
 
     res.status(200).json({
         message: 'Successfully logged in and fetched lists',
         session: req.session,
         tmdbid: req.tmdbid,
-        lists: lists
     });
 };
 

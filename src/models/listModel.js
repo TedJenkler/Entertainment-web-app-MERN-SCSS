@@ -32,7 +32,8 @@ const listSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    user: { type: Schema.Types.ObjectId, ref: 'User' }
+    user: { type: Schema.Types.ObjectId, ref: 'User' },
+    mediaid: []
 });
 
 const List = mongoose.model('List', listSchema);
