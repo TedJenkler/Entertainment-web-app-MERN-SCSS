@@ -10,4 +10,8 @@ router.post('/remove/movie', listController.removemovie);
 router.post('/clear', listController.clear);
 router.delete('/delete', listController.delete);
 
+//
+
+router.post('/user/lists', listController.userlists);
+
 module.exports = router;

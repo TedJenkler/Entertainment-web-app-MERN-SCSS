@@ -1,5 +1,7 @@
 const axios = require('axios');
 const logger = require('../utils/logger');
+const User = require('../models/userModel');
+const List = require('../models/listModel');
 require('dotenv').config();
 
 const postAction = {
@@ -172,5 +174,35 @@ exports.delete = async (req, res, next) => {
     } catch (error) {
         logger.error('Failed to delete list', { error: error.toString(), stack: error.stack });
         res.status(500).json({ message: 'Failed to delete list', error: error.message });
+    }
+};
+
+//
+
+exports.userlists = async (req, res, next) => {
+    const { account_id } = req.body;
+
+    try {
+        const user = await User.findOne({ tmdbid: account_id });
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        const listIDs = user.lists;
+        const listData = [];
+
+        for (const id of listIDs) {
+            const list = await List.findOne({ _id: id });
+            listData.push(list);
+        }
+
+        res.status(200).json({
+            message: 'Lists retrieved successfully',
+            list: listIDs,
+            listData: listData,
+        });
+    } catch (error) {
+        logger.error('Error retrieving user lists', { error });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAll, details } from '../features/list/listslice';
+import { userLists } from '../features/list/listslice';
 
 function ListModal() {
     const dispatch = useDispatch();
@@ -9,17 +9,9 @@ function ListModal() {
     const mediaData = useSelector((state) => state.list.modalData);
     console.log(mediaData)
 
-    /*useEffect(() => {
-        if (lists && lists.length > 0) {
-            lists.forEach((item) => {
-                dispatch(details({ listid: item.id }));
-            });
-        }
-    }, [lists, dispatch]);  */
-
     useEffect(() => {
         if (user?.tmdbid) {
-            dispatch(getAll({ account_id: user.tmdbid }));
+            dispatch(userLists({ account_id: user.tmdbid }));
         }
     }, [dispatch, user]);
 
@@ -37,7 +29,7 @@ function ListModal() {
                     <div className="list-modal-display">
                         {lists && lists.map((item) => (
                             <label className="list-item" key={item.id}>
-                                <input type="checkbox" />
+                                <input defaultChecked={item.mediaid.includes(mediaData.id)} type="checkbox" />
                                 <p>{item.name}</p>
                             </label>
                         ))}
