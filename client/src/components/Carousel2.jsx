@@ -36,8 +36,8 @@ const Carousel2 = ({ data, h1, rated }) => {
     dispatch(addFavorite({ userid, media_id: id, media_type }));
   };
 
-  const listModal = () => {
-    dispatch(toggleModal());
+  const listModal = (card) => {
+    dispatch(toggleModal(card));
   };
 
   const handleRatingClick = (card) => {
@@ -95,7 +95,7 @@ const Carousel2 = ({ data, h1, rated }) => {
                       <img src={bookmark} alt="bookmark" />
                       <p>Bookmark</p>
                     </div>
-                    <div onClick={() => listModal()}>
+                    <div onClick={() => listModal(card)}>
                       <img src={list} alt="list" />
                       <p>Add to list</p>
                     </div>

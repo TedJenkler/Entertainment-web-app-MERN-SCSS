@@ -1,11 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAll } from '../features/list/listslice';
+import { getAll, details } from '../features/list/listslice';
 
 function ListModal() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
     const lists = useSelector((state) => state.list.lists);
+    const mediaData = useSelector((state) => state.list.modalData);
+    console.log(mediaData)
+
+    /*useEffect(() => {
+        if (lists && lists.length > 0) {
+            lists.forEach((item) => {
+                dispatch(details({ listid: item.id }));
+            });
+        }
+    }, [lists, dispatch]);  */
 
     useEffect(() => {
         if (user?.tmdbid) {
@@ -16,7 +26,7 @@ function ListModal() {
     return (
         <section className="list-modal">
             <header className="list-modal-header">
-                <h1>Add “Reign of Chaos” to lists</h1>
+                <h1>Add “{mediaData.name || mediaData.title}” to lists</h1>
             </header>
             <div className="list-modal-content">
                 <div className="list-modal-container">

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
@@ -15,7 +16,6 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
-    required: true,
     trim: true,
     lowercase: true
   },
@@ -39,7 +39,8 @@ const userSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  lists: [{ type: Schema.Types.ObjectId, ref: 'List' }]
 }, {
   timestamps: true
 });

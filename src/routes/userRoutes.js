@@ -4,11 +4,12 @@ const userController = require('../controllers/userController');
 const { registerValidationRules } = require('../validators/userValidator');
 const { validate } = require('../validators');
 const registerLimiter = require('../middlewere/rateLimiter');
+const fetchListTMDB = require('../middlewere/fetchListsTMDB');
 
 // TMDB
 
 router.get('/token', userController.getToken);
-router.post('/tmdb/login', userController.tmdbLogin);
+router.post('/tmdb/login', userController.tmdbLogin, fetchListTMDB, userController.processFetchedLists);
 router.delete('/tmdblogout', userController.tmdblogout);
 
 router.get('/', userController.getAll);

@@ -103,16 +103,27 @@ exports.tmdbLogin = async (req, res, next) => {
             logger.info(`New user ${username} has been added.`);
         }
 
-        res.status(200).json({
-            message: 'Successfully logged in',
-            session: session,
-            username: username
-          });
+        req.account_id = userData.id;
+        req.session = session;
+
+        next();
     } catch (error) {
         logger.error(`Couldn't log in to TMDB: ${error.message}`);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
+exports.processFetchedLists = (req, res) => {
+    const lists = req.lists;
+
+    res.status(200).json({
+        message: 'Successfully logged in and fetched lists',
+        session: req.session,
+        tmdbid: req.tmdbid,
+        lists: lists
+    });
+};
+
 
 exports.tmdblogout = async (req, res, next) => {
     const { session_id } = req.body;
